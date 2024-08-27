@@ -1,5 +1,7 @@
 import json
 def generate_diff(file1, file2, format=json):
+    file1 = json.load(open(file1))
+    file2 = json.load(open(file2))
     result = []
     keys = list({*file1.keys(), *file2.keys()})
     keys.sort()
@@ -17,7 +19,6 @@ def generate_diff(file1, file2, format=json):
 
         if file1.get(keys[i]) is None and file2.get(keys[i]) is not None:
             result.append(f' + {keys[i]}: {file2.get(keys[i])}')
-    print(f'{{\n{'\n'.join(result)}\n}}')
+    return f'{{\n{'\n'.join(result)}\n}}'
 
-generate_diff(json.load(open('../files/file1.json')),
-             json.load(open('../files/file2.json')))
+#print(generate_diff('../../tests/fixtures/file_different1.json','../../tests/fixtures/file_different2.json'))
