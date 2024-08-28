@@ -19,6 +19,6 @@ def generate_diff(file1, file2, format=json):
 
         if file1.get(keys[i]) is None and file2.get(keys[i]) is not None:
             result.append(f' + {keys[i]}: {file2.get(keys[i])}')
-    return f'{{\n{'\n'.join(result)}\n}}'
+    return f'{{\n {'\n '.join(result)}\n}}'
 
 #print(generate_diff('../../tests/fixtures/file_different1.json','../../tests/fixtures/file_different2.json'))
