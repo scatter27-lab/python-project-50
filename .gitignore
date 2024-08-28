@@ -1,8 +1,8 @@
 .idea/
-difficult_calculator/scripts/__pycache__
-difficult_calculator/__pycache__
-difficult_calculator/scripts/__pycache__/gendiff.cpython-312.pyc
-difficult_calculator/code/__pycache__
+gendiff/scripts/__pycache__
+gendiff/__pycache__
+gendiff/scripts/__pycache__/gendiff.cpython-312.pyc
+gendiff/code/__pycache__
 tests/__pycache__/
 tests/__pycache__/test_identical.cpython-312-pytest-8.3.2.py
-difficult_calculator/code/__pycache__/
+gendiff/code/__pycache__/

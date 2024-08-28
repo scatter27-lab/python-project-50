@@ -6,7 +6,7 @@ authors = ["scatter27-lab <chyvashok98@gmail.com>"]
 readme = "README.md"
 repository = "https://github.com/scatter27-lab/python-project-50"
 packages = [
-    { include = "difficult_calculator" },
+    { include = "gendiff" },
     { include = "tests" },
 ]
 
@@ -14,9 +14,10 @@ packages = [
 python = "^3.12"
 pytest = "^8.3.2"
 flake8 = "^7.1.1"
+pyyaml = "^6.0.2"
 
 [tool.poetry.scripts]
-gendiff = "difficult_calculator.scripts.gendiff:main"
+gendiff = "gendiff.scripts.gendif:main"
 
 [build-system]
 requires = ["poetry-core"]
