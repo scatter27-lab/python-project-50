@@ -3,9 +3,11 @@ def pars(file1, file2, keys):
     for i in range(len(keys)):
         if file1.get(keys[i]) and file2.get(keys[i]):
             if file1.get(keys[i]) == file2.get(keys[i]):
-                result.append(f'   {keys[i]}: {file1.get(keys[i])}')  # если одинаковое
+                # если одинаковое
+                result.append(f'   {keys[i]}: {file1.get(keys[i])}')
             else:
-                result.append(f' - {keys[i]}: {file1.get(keys[i])}')  #  если разные value
+                #  если разные value
+                result.append(f' - {keys[i]}: {file1.get(keys[i])}')
                 result.append(f' + {keys[i]}: {file2.get(keys[i])}')
 
         if file1.get(keys[i]) is not None and file2.get(keys[i]) is None:

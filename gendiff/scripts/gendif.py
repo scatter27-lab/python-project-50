@@ -7,5 +7,6 @@ def main():
     file1, file2, format = util()
     print(generate_diff(file1, file2, format))
 
+
 if __name__ == '__main__':
     main()

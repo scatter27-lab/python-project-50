@@ -1,4 +1,5 @@
-import json, yaml
+import json
+import yaml
 from yaml import SafeLoader
 from gendiff.code.comparison import pars
 
