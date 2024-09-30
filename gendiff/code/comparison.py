@@ -1,5 +1,5 @@
 import json
-# from gendiff.formatters.stylish import style
+from gendiff.formatters.stylish import stylish
 
 def pars(file1, file2, keys):
     result = []
@@ -7,10 +7,7 @@ def pars(file1, file2, keys):
         if file1.get(keys[i]) and file2.get(keys[i]):
             if file1.get(keys[i]) == file2.get(keys[i]):
                 # если одинаковое
-                if isinstance(file1.get(keys[i]), str):
-                    result.append(f'   {keys[i]}: {file1.get(keys[i])}')
-                else:
-                    result.append(f'   {keys[i]}: {json.dumps(file1.get(keys[i]))}')
+                result.append(stylish(file1, keys[i]))
             else:
                 # если разные value
                 # result.append(f' - {keys[i]}: {file1.get(keys[i])}')
@@ -32,7 +29,7 @@ def pars(file1, file2, keys):
 
         if file1.get(keys[i]) is None and file2.get(keys[i]) is not None:
             if isinstance(file2.get(keys[i]), str):
-                result.append(f' - {keys[i]}: {file2.get(keys[i])}')
+                result.append(f' + {keys[i]}: {file2.get(keys[i])}')
             else:
                 result.append(f' + {keys[i]}: {json.dumps(file2.get(keys[i]))}')
 

@@ -6,3 +6,4 @@ gendiff/code/__pycache__
 tests/__pycache__/
 tests/__pycache__/test_identical.cpython-312-pytest-8.3.2.py
 gendiff/code/__pycache__/
+gendiff/formatters/__pycache__/
