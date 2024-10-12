@@ -17,4 +17,5 @@ def generate_diff(file1, file2, format=json):
     keys.sort()
     return pars(file1, file2, keys)
 
-#print(generate_diff('../../tests/fixtures/file_different1.json','../../tests/fixtures/file_different2.json'))
+# print(generate_diff('../../tests/fixtures/file_different1.json',
+# '../../tests/fixtures/file_different2.json'))

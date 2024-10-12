@@ -11,6 +11,7 @@ def file1_path():
 def file2_path():
     return 'fixtures/file2.json'
 
+
 def test_generate_diff(file1_path, file2_path):
     excepted = """{
   - follow: false
