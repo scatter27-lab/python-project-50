@@ -58,11 +58,7 @@ def pars(file1, file2, keys):
             if file1.get(keys[i]) == file2.get(keys[i]):
                 # если одинаковое
                 # result.append(stylish(file1, keys[i]))
-                if isinstance(file1.get(keys[i]), str):
-                    result.append(f'   {keys[i]}: {file1.get(keys[i])}')
-                else:
-                    result.append(f'   {keys[i]}: '
-                                  f'{json.dumps(file1.get(keys[i]))}')
+                result.append(f'   {keys[i]}: {file1.get(keys[i])}')
             else:
                 # если разные value
                 # result.append(f' - {keys[i]}: {file1.get(keys[i])}')

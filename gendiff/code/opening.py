@@ -4,7 +4,7 @@ from yaml import SafeLoader
 from gendiff.code.comparison import pars
 
 
-def generate_diff(file1, file2, format=json):
+def generate_diff(file1, file2, format_name='stylish'):
     if file1.endswith('.json'):
         file1 = json.load(open(file1))
     elif file1.endswith(('.yaml', '.yml')):
