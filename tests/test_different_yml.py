@@ -4,25 +4,25 @@ from gendiff.code.opening import generate_diff
 
 @pytest.fixture
 def file1_path():
-    return 'tests/fixtures/file1.json'
-
-
-@pytest.fixture
-def file2_path():
-    return 'tests/fixtures/file2.json'
-
-
-@pytest.fixture
-def file1_path_yml():
     return 'tests/fixtures/file1.yml'
 
 
 @pytest.fixture
-def file2_path_yml():
+def file2_path():
     return 'tests/fixtures/file2.yml'
 
 
-def test_generate_diff(file1_path, file2_path):
+@pytest.fixture
+def file1_path_yaml():
+    return 'tests/fixtures/file1.yaml'
+
+
+@pytest.fixture
+def file2_path_yaml():
+    return 'tests/fixtures/file2.yaml'
+
+
+def test_generate_diff(file1_path, file2_path, file1_path_yaml, file2_path_yaml):
     excepted = """{
   - follow: false
     host: hexlet.io
@@ -32,3 +32,4 @@ def test_generate_diff(file1_path, file2_path):
   + verbose: true
 }"""
     assert generate_diff(file1_path, file2_path) == excepted
+    assert generate_diff(file1_path_yaml, file2_path_yaml) == excepted

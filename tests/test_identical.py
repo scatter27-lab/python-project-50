@@ -1,10 +1,19 @@
 from gendiff.code.opening import generate_diff
+import pytest
 
 
-# assert (generate_diff('fixtures/file1.json','fixtures/file2.json')
-# == f'{{\n - follow: False\n   host: hexlet.io\n -
-# proxy: 123.234.53.22\n - timeout: 50\n +
-# timeout: 20\n + verbose: True \n}}')
-file1 = 'fixtures/file_identical1.json'
-file2 = 'fixtures/file_identical2.json'
-assert generate_diff(file1, file2) == "{\n    host: hexlet.io\n}"
+@pytest.fixture
+def file1_path():
+    return 'tests/fixtures/file_identical1.json'
+
+
+@pytest.fixture
+def file2_path():
+    return 'tests/fixtures/file_identical2.json'
+
+
+def test_generate_diff(file1_path, file2_path):
+    excepted = """{
+    host: hexlet.io
+}"""
+    assert generate_diff(file1_path, file2_path) == excepted
