@@ -1,29 +1,29 @@
-# import json
+import json
 
 
-# def stringify(value, replacer=' ', spaces_count=1):
-#     def walk(value, depth):
-#         indent = (str(replacer) * spaces_count) * depth
-#         if type(value) == str or type(value) == bool or type(value) == int:
-#             if replacer == ' ' and spaces_count == 1:
-#                 return f'{str(value)}'
-#             else:
-#                 return f'{indent}{str(value)}'
-#         if isinstance(value, dict):
-#             inside = ['{']
-#             keys = []
-#             keys = list(value.keys())
-#             for i in keys:
-#                 if type(value.get(i)) != dict:
-#                     inside.append(f'{indent}{i}: {value.get(i)}')
-#                 if isinstance(value.get(i), dict):
-#                     # рекурсия
-#                     inside.append(f"{indent}{i}: {(walk(value.get(i), depth + 1))}")
-#                     inside.append(f'{indent}}}')
-#         if depth == 1:
-#             inside.append('}')
-#         return '\n'.join(inside)
-#     return walk(value, 1)
+def stylish(value, replacer=' ', spaces_count=1):
+
+    def walk(value, depth):
+        indent = (str(replacer) * spaces_count) * depth
+        if type(value) == str or type(value) == bool or type(value) == int:
+            if replacer == ' ' and spaces_count == 1:
+                return f'{str(value)}'
+            else:
+                return f'{indent}{str(value)}'
+        if isinstance(value, dict):
+            inside = []
+            keys = list(value.keys())
+            for i in keys:
+                if type(value.get(i)) != dict:
+                    inside.append(f'{indent}{i}: {value.get(i)}')
+                if isinstance(value.get(i), dict):
+                    # рекурсия
+                    inside.append(f"{indent}{i}: {(walk(value.get(i), depth + 1))}")
+                    inside.append(f'{indent}}}')
+        # if depth == 1:
+            # inside.append('}')
+        return '\n'.join(inside)
+    return walk(value, 1)
 # _______________________________________
 # def stylish(position):
 #     style = ''
