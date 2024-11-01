@@ -13,9 +13,7 @@ def generate_diff(file1, file2, format_name='stylish'):
         file2 = json.load(open(file2))
     elif file2.endswith(('.yaml', '.yml')):
         file2 = yaml.load(open(file2), Loader=SafeLoader)
-    keys = list({*file1.keys(), *file2.keys()})
-    keys.sort()
-    return pars(file1, file2, keys)
+    return pars(file1, file2)
 
 # print(generate_diff('../../tests/fixtures/file_different1.json',
 # '../../tests/fixtures/file_different2.json'))

@@ -1,28 +1,30 @@
 import json
 
 
-def stylish(value, replacer=' ', spaces_count=1):
+def stylish(value, replacer='   ', spaces_count=1):
 
-    def walk(value, depth):
-        indent = (str(replacer) * spaces_count) * depth
-        if type(value) == str or type(value) == bool or type(value) == int:
-            if replacer == ' ' and spaces_count == 1:
-                return f'{str(value)}'
-            else:
-                return f'{indent}{str(value)}'
-        if isinstance(value, dict):
-            inside = []
-            keys = list(value.keys())
-            for i in keys:
-                if type(value.get(i)) != dict:
-                    inside.append(f'{indent}{i}: {value.get(i)}')
-                if isinstance(value.get(i), dict):
-                    # рекурсия
-                    inside.append(f"{indent}{i}: {(walk(value.get(i), depth + 1))}")
-                    inside.append(f'{indent}}}')
-        # if depth == 1:
-            # inside.append('}')
-        return '\n'.join(inside)
+    def walk(value, depth=0):
+        result = []
+        for key in value:
+            if key['status'] == 'changeless':
+                replacer = '    '
+                result.append(f"{replacer}{key['name']}: {key['data']}")
+            if key['status'] == 'deleted':
+                replacer = '  - '
+                result.append(f"{replacer}{key['name']}: {key['data']}")
+            if key['status'] == 'added':
+                replacer = '  + '
+                result.append(f"{replacer}{key['name']}: {key['data']}")
+            if key['status'] == 'changed':
+                replacer = '  - '
+                result.append(f"{replacer}{key['name']}: {key['data before']}")
+                replacer = '  + '
+                result.append(f"{replacer}{key['name']}: {key['data after']}")
+            if key['status'] == 'nest':
+                result.append(walk(key, depth + 1))
+        result.append('}')
+        return '\n'.join(result)
+
     return walk(value, 1)
 # _______________________________________
 # def stylish(position):

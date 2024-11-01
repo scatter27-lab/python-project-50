@@ -45,27 +45,28 @@ from gendiff.code.opening import generate_diff
 # ________________________________________________________________________________
 # print(pars(json.load(open('../../tests/fixtures/file_different1.json')),
 # json.load(open('../../tests/fixtures/file_different2.json')), ['follow']))
-def pars(file1, file2, keys):
-    result = []
-    def inside(file1, file2, keys, count):
-        for i in keys:
-            if file1.get(i) and file2.get(i):
-                # if isinstance(file1.get(i), dict):
-                #     inside(file1.get(i), file2.get(i), [i], count + 1)
-                if file1.get(i) == file2.get(i):
-                    # если одинаковое
-                    result.append(stylish({i: file1.get(i)}, '   '))
-                else:
-                    # если разные value
-                    # result.append(f' - {keys[i]}: {file1.get(keys[i])}')
-                    result.append(stylish({i: file1.get(i)}, ' - '))
-                    result.append(stylish({i: file2.get(i)}, ' + '))
-
-            if file1.get(i) is not None and file2.get(i) is None:
-                result.append(stylish({i: file1.get(i)}, ' - '))
-
-            if file1.get(i) is None and file2.get(i) is not None:
-                result.append(stylish({i: file2.get(i)}, ' + '))
-
-        return f'{{\n {'\n '.join(result)}\n}}'
-    return inside(file1, file2, keys, 1)
+def pars(file1, file2):
+    keys = list({*file1.keys(), *file2.keys()})
+    keys.sort()
+    prop = []
+    for i in keys:
+        value = {'name': i}
+        if i not in file1:
+            value['status'] = 'added'
+            value['data'] = file2[i]
+        elif i not in file2:
+            value['status'] = 'deleted'
+            value['data'] = file1[i]
+        elif isinstance(file1.get(i), dict) and isinstance(file2.get(i), dict):
+            value['status'] = 'nest'
+            value['inside'] = pars(file1.get(i), file2.get(i))
+        elif file1.get(i) == file2.get(i):
+            value['status'] = 'changeless'
+            value['data'] = file1[i]
+        else:
+            value['status'] = 'changed'
+            value['data before'] = file1[i]
+            value['data after'] = file2[i]
+        prop.append(value)
+    return stylish(prop)
+    #return f'{{\n {'\n '.join(prop)}\n}}'
