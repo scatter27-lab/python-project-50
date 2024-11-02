@@ -58,7 +58,7 @@ def pars(file1, file2):
             value['data'] = file1[i]
         elif isinstance(file1.get(i), dict) and isinstance(file2.get(i), dict):
             value['status'] = 'nest'
-            value['inside'] = pars(file1[i], file2[i])
+            value['inside'] = pars(file1.get(i), file2.get(i))
         elif file1.get(i) == file2.get(i):
             value['status'] = 'changeless'
             value['data'] = file1[i]

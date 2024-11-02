@@ -1,13 +1,16 @@
 
 
-def stylish(value, replacer='   ', spaces_count=1):
+def stylish(value: list, replacer='   ', spaces_count=1):
 
-    def walk(value, depth=0):
-        result = []
+    def walk(value, depth):
+        if depth == 1:
+            result = ['{']
+        else:
+            result = []
         if isinstance(value, list):
             for key in value:
                 if key['status'] == 'changeless':
-                    replacer = '    '
+                    replacer = '    ' * depth
                     result.append(f"{replacer}{key['name']}: {key['data']}")
                 if key['status'] == 'deleted':
                     replacer = '  - '
@@ -16,16 +19,21 @@ def stylish(value, replacer='   ', spaces_count=1):
                     replacer = '  + '
                     result.append(f"{replacer}{key['name']}: {key['data']}")
                 if key['status'] == 'changed':
-                    replacer = '  - '
+                    replacer = '  - ' * depth
                     result.append(f"{replacer}{key['name']}: {key['data before']}")
-                    replacer = '  + '
+                    replacer = '  + ' * depth
                     result.append(f"{replacer}{key['name']}: {key['data after']}")
                 if key['status'] == 'nest':
-                    result.append(walk(key['inside'], depth + 1))
-        else:
-            replacer = '   '
-            result.append(f'{replacer * depth}{value}')
-        #result.append('}')
+                    replacer = '    '
+                    depth += 1
+                    print(type(key['inside']))
+                    print(key['inside'])
+                    result.append(f"{replacer}{key['name']}{walk(key['inside'], depth)}")
+        # else:
+        #     replacer = '    '
+        #     result.append(f'{replacer * depth}<<<{value}>>>')
+        if depth == 1:
+            result.append('}')
         return '\n'.join(result)
 
     return walk(value, 1)
