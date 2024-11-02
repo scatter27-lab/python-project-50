@@ -1,28 +1,31 @@
-import json
 
 
 def stylish(value, replacer='   ', spaces_count=1):
 
     def walk(value, depth=0):
         result = []
-        for key in value:
-            if key['status'] == 'changeless':
-                replacer = '    '
-                result.append(f"{replacer}{key['name']}: {key['data']}")
-            if key['status'] == 'deleted':
-                replacer = '  - '
-                result.append(f"{replacer}{key['name']}: {key['data']}")
-            if key['status'] == 'added':
-                replacer = '  + '
-                result.append(f"{replacer}{key['name']}: {key['data']}")
-            if key['status'] == 'changed':
-                replacer = '  - '
-                result.append(f"{replacer}{key['name']}: {key['data before']}")
-                replacer = '  + '
-                result.append(f"{replacer}{key['name']}: {key['data after']}")
-            if key['status'] == 'nest':
-                result.append(walk(key, depth + 1))
-        result.append('}')
+        if isinstance(value, list):
+            for key in value:
+                if key['status'] == 'changeless':
+                    replacer = '    '
+                    result.append(f"{replacer}{key['name']}: {key['data']}")
+                if key['status'] == 'deleted':
+                    replacer = '  - '
+                    result.append(f"{replacer}{key['name']}: {key['data']}")
+                if key['status'] == 'added':
+                    replacer = '  + '
+                    result.append(f"{replacer}{key['name']}: {key['data']}")
+                if key['status'] == 'changed':
+                    replacer = '  - '
+                    result.append(f"{replacer}{key['name']}: {key['data before']}")
+                    replacer = '  + '
+                    result.append(f"{replacer}{key['name']}: {key['data after']}")
+                if key['status'] == 'nest':
+                    result.append(walk(key['inside'], depth + 1))
+        else:
+            replacer = '   '
+            result.append(f'{replacer * depth}{value}')
+        #result.append('}')
         return '\n'.join(result)
 
     return walk(value, 1)

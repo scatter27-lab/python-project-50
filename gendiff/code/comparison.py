@@ -1,6 +1,5 @@
 import json
 from gendiff.formatters.stylish import stylish
-from gendiff.code.opening import generate_diff
 
 # def pars(file1, file2, keys):
 #     result = []
@@ -59,7 +58,7 @@ def pars(file1, file2):
             value['data'] = file1[i]
         elif isinstance(file1.get(i), dict) and isinstance(file2.get(i), dict):
             value['status'] = 'nest'
-            value['inside'] = pars(file1.get(i), file2.get(i))
+            value['inside'] = pars(file1[i], file2[i])
         elif file1.get(i) == file2.get(i):
             value['status'] = 'changeless'
             value['data'] = file1[i]
