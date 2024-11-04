@@ -2,6 +2,7 @@ import json
 import yaml
 from yaml import SafeLoader
 from gendiff.code.comparison import pars
+from gendiff.formatters.stylish import stylish
 
 
 def generate_diff(file1, file2, format_name='stylish'):
@@ -13,7 +14,6 @@ def generate_diff(file1, file2, format_name='stylish'):
         file2 = json.load(open(file2))
     elif file2.endswith(('.yaml', '.yml')):
         file2 = yaml.load(open(file2), Loader=SafeLoader)
-    return pars(file1, file2)
+    diff = pars(file1, file2)
+    return f"{{\n{stylish(diff)}\n}}"
 
-# print(generate_diff('../../tests/fixtures/file_different1.json',
-# '../../tests/fixtures/file_different2.json'))
