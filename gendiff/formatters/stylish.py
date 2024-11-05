@@ -1,4 +1,3 @@
-from gendiff.formatters.low import lower
 import json
 
 
@@ -20,14 +19,14 @@ def lower(value, depth=0):
         strings = []
         for k, v in value.items():
             strings.append(f"{replacer}{k}: {lower(v, depth + 1)}")
-        return f"{{\n{'\n'.join(strings)}\n{'    ' * depth}}}"
-    return str(value)
+        return f"{{\n{'\n'.join(strings)}\n{replacer}}}"
+    return value
 
 
 def nest(result, key, inf, replacer, depth):
     if inf.get('inside'):
         result.append(f"{replacer}    {key}: {{")
-        result.append(stylish(inf['inside'], depth + 1))
+        result.append(stylish(inf['inside'], depth + 1)) # нет отступа
         result.append(f"{replacer}    }}")
     else:
         result.append(f"{replacer}    {key}: {lower(inf['data'])}")
@@ -36,18 +35,19 @@ def nest(result, key, inf, replacer, depth):
 def stylish(value, depth=0):
     result = []
     replacer = '    ' * depth
-
-    for key, inf in value.items():
-        if inf['status'] == 'changeless':
-            nest(result, key, inf, replacer, depth)
-        elif inf['status'] == 'deleted':
-            result.append(f"{replacer}  - {key}: {lower(inf['data'])}")
-        elif inf['status'] == 'added':
-            result.append(f"{replacer}  + {key}: {lower(inf['data'])}")
-        elif inf['status'] == 'changed':
-            result.append(f"{replacer}  - {key}: {lower(inf['data before'])}")
-            result.append(f"{replacer}  + {key}: {lower(inf['data after'])}")
-
+    if type(value) == dict:
+        for key, inf in value.items():
+            if inf['status'] == 'changeless':
+                nest(result, key, inf, replacer, depth)
+            elif inf['status'] == 'deleted':
+                result.append(f"{replacer}  - {key}: {lower(inf['data'])}")
+            elif inf['status'] == 'added':
+                result.append(f"{replacer}  + {key}: {lower(inf['data'])}")
+            elif inf['status'] == 'changed':
+                result.append(f"{replacer}  - {key}: {lower(inf['data before'])}")
+                result.append(f"{replacer}  + {key}: {lower(inf['data after'])}")
+    else:
+        result.append(f"{replacer}{value}")
     return '\n'.join(result)
 
 
