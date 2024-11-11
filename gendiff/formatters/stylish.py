@@ -26,9 +26,12 @@ def lower(value, depth=0):
 def nest(result, key, inf, replacer, depth):
     if inf.get('inside'):
         result.append(f"{replacer}    {key}: {{")
-        result.append(stylish(inf['inside'], depth + 1)) # нет отступа
+        depth += 1
+        result.append(stylish(inf['inside'], depth)) # нет отступа
         result.append(f"{replacer}    }}")
     else:
+        depth += 1
+        replacer = '    ' * depth
         result.append(f"{replacer}    {key}: {lower(inf['data'])}")
 
 
@@ -40,12 +43,12 @@ def stylish(value, depth=0):
             if inf['status'] == 'changeless':
                 nest(result, key, inf, replacer, depth)
             elif inf['status'] == 'deleted':
-                result.append(f"{replacer}  - {key}: {lower(inf['data'])}")
+                result.append(f"{replacer}  - {key}: {lower(inf['data'], depth)}")
             elif inf['status'] == 'added':
-                result.append(f"{replacer}  + {key}: {lower(inf['data'])}")
+                result.append(f"{replacer}  + {key}: {lower(inf['data'], depth)}")
             elif inf['status'] == 'changed':
-                result.append(f"{replacer}  - {key}: {lower(inf['data before'])}")
-                result.append(f"{replacer}  + {key}: {lower(inf['data after'])}")
+                result.append(f"{replacer}  - {key}: {lower(inf['data before'], depth)}")
+                result.append(f"{replacer}  + {key}: {lower(inf['data after'], depth)}")
     else:
         result.append(f"{replacer}{value}")
     return '\n'.join(result)
